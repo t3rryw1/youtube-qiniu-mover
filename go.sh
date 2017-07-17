@@ -8,7 +8,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     qshell=./commands/qshell-darwin-x64                # Mac OSX
 fi
 
-eval $(cat ./.env | xargs)
+eval $(cat ./config/.env | xargs)
 
 $qshell account $ACCESS_KEY $SECRET_KEY
 
@@ -20,4 +20,4 @@ printf "Start processing file list...
 
 ./commands/download.sh $file1 $file2
 
-$qshell qupload 4 ./qshell_config.json
+$qshell qupload 4 ./config/qshell_config.json

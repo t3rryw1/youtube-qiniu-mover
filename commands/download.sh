@@ -12,10 +12,6 @@ while read url; do
 #  echo $file_name
   youtube-dl -o "videos/%(title)s.%(ext)s" $url
   printf "Finish downloading $url\n"
-  printf "Calling qshell to upload file"
-  qshell qupload
-
   printf "Write $url to done List\n"
   printf "$url\n" >> $2
 done < tmp/current_files.tmp
-
