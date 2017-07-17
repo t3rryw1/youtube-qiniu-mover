@@ -3,8 +3,11 @@
   "access_key":"dzTaOTcLAA-SQY9Ky2Vs9wJqaci5FyDOEgjK_dQq",
   "secret_key":"Y6O1QoMFYUU62SwPo8QhTxEm-uZ7GicpbivpfogX",
   "bucket":"cozystay-galaxy-bucket1-hb",
-  "check_exists":false,
+  "check_exists":true,
+  "check_hash":false,
   "rescan_local":true,
-  "log_level":"debug"
-
+  "log_level":"debug",
+  "key_prefix"	:	"shell_upload",
+  "ignore_dir"	:	true,
+  "skip_suffixes":"gitignore,DS_Store"
 }

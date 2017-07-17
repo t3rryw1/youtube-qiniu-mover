@@ -20,4 +20,4 @@ printf "Start processing file list...
 
 ./commands/download.sh $file1 $file2
 
-$qshell qupload ./qshell_config.json
+$qshell qupload 4 ./qshell_config.json
