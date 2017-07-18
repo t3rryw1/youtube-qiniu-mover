@@ -7,5 +7,5 @@
   "log_level":"debug",
   "key_prefix"	:	"shell_upload/",
   "ignore_dir"	:	true,
-  "skip_suffixes":"gitignore,DS_Store"
+  "skip_suffixes":"gitignore,DS_Store,part,ytdl"
 }
