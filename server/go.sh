@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ${PWD}
+cd $(dirname $0)
 
 git pull
 
