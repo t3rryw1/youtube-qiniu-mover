@@ -10,7 +10,7 @@ while read url; do
   printf "Start downloading $url\n"
 #  file_name=$(youtube-dl --get-filename -o 'videos/%(title)s.%(ext)s' $url)
 #  echo $file_name
-  youtube-dl -o "videos/%(title)s.%(ext)s" $url
+  /usr/local/bin/youtube-dl -o "videos/%(title)s.%(ext)s" $url
   printf "Finish downloading $url\n"
   printf "Write $url to done List\n"
   printf "$url\n" >> $2
