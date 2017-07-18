@@ -22,4 +22,7 @@ printf "Start processing file list...
 
 ./commands/download.sh $file1 $file2
 
+if pgrep -c qshell; then
+  exit;
+fi
 $qshell qupload 4 ./config/qshell_config.json

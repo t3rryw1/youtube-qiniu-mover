@@ -10,6 +10,9 @@ while read url; do
   printf "Start downloading $url\n"
 #  file_name=$(youtube-dl --get-filename -o 'videos/%(title)s.%(ext)s' $url)
 #  echo $file_name
+ if pgrep -c youtube-dl; then
+   exit;
+ fi
  if /usr/local/bin/youtube-dl -o "videos/%(id)s-%(autonumber)s.%(ext)s" $url ; then
    printf "Finish downloading $url\n"
    printf "Write $url to done List\n"
