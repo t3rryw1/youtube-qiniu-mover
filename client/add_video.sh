@@ -1,3 +1,5 @@
+cd $(dirname $0)
+echo $(PWD)
 eval $(cat ../.env | xargs)
 
 if [ -z "$1" ]; then
