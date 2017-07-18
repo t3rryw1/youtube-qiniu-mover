@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+if pgrep -c youtube-dl; then
+  echo "Last task still running, exit"
+  exit;
+fi
+
+if pgrep -c qshell; then
+  echo "Last task still running, exit"
+  exit;
+fi
+
+
+
 cd $(dirname $0)
 
 git pull
