@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ${PWD}
+
 git pull
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
