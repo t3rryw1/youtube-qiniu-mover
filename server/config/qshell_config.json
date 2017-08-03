@@ -1,6 +1,6 @@
 {
   "src_dir":"./videos/",
-  "bucket":"cozystay-galaxy-bucket1-hb",
+  "bucket":"mfj-video",
   "check_exists":true,
   "check_hash":false,
   "rescan_local":true,
