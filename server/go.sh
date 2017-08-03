@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if pgrep -c youtube-dl; then
-  echo "Last task still running, exit"
+if pgrep -c youtube-dl > /dev/null; then
+  echo "Last download task still running, exit"
   exit;
 fi
 
-if pgrep -c qshell; then
-  echo "Last task still running, exit"
+if pgrep -c qshell > /dev/null; then
+  echo "Last upload task still running, exit"
   exit;
 fi
 
