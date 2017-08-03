@@ -6,6 +6,5 @@
   "rescan_local":true,
   "log_level":"debug",
   "key_prefix"	:	"shell_upload/",
-  "ignore_dir"	:	true,
   "skip_suffixes":"gitignore,DS_Store,part,ytdl"
 }
