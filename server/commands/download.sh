@@ -7,7 +7,7 @@ comm  -23 "tmp/$(basename $1).tmp" "tmp/$(basename $2).tmp" > "tmp/current_files
 printf "There are $(wc -l < tmp/current_files.tmp) new files to be downloaded\n";
 while read url; do
   printf "Start downloading $url\n"
- file_name=$(youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url)
+ file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url)
 #  echo $file_name
  if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url ; then
    printf "Finish downloading $url\n"
