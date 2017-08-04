@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 if pgrep -c youtube-dl > /dev/null; then
-  echo "Last download task still running, exit"
+  # echo "Last download task still running, exit"
   exit;
 fi
 
 if pgrep -c qshell > /dev/null; then
-  echo "Last upload task still running, exit"
+  # echo "Last upload task still running, exit"
   exit;
 fi
 
@@ -38,7 +38,7 @@ if pgrep -c qshell; then
   exit;
 fi
 
-if [ -f tmp/current_local_files.tmp ] 
+if [ -f tmp/current_local_files.tmp ]
 then
 while read file; do
   printf "Start uploading $file\n"
