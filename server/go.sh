@@ -43,5 +43,6 @@ while read file; do
   $qshell rput $BUCKET_NAME "shell_upload/$file" "./$file"
 done < tmp/current_local_files.tmp
 
+rm tmp/current_local_files.tmp
 
 # $qshell qupload 4 ./config/qshell_config.json
