@@ -42,7 +42,7 @@ if [ -f tmp/current_local_files.tmp ]
 then
 while read file; do
   printf "Start uploading $file\n"
-  $qshell rput $BUCKET_NAME "shell_upload/$file" "./$file"
+  sh $qshell rput $BUCKET_NAME "shell_upload/$file" "./$file"
 done < tmp/current_local_files.tmp
 rm -f tmp/current_local_files.tmp
 fi
