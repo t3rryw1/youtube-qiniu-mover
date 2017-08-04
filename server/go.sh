@@ -45,5 +45,6 @@ while read file; do
 done < tmp/current_local_files.tmp
 rm -f tmp/current_local_files.tmp
 fi
+echo "Done uploading all files"
 
 # $qshell qupload 4 ./config/qshell_config.json
