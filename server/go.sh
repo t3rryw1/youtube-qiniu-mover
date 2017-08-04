@@ -37,4 +37,11 @@ printf "Start processing file list...
 if pgrep -c qshell; then
   exit;
 fi
-$qshell qupload 4 ./config/qshell_config.json
+
+while read file; do
+  printf "Start uploading $file\n"
+  $qshell rput $BUCKET_NAME "shell_upload/$file" "./$file"
+done < tmp/current_local_files.tmp
+
+
+# $qshell qupload 4 ./config/qshell_config.json
