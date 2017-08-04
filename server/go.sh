@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-if ps aux |grep go.sh > /dev/null; then
-  # echo "Last upload task still running, exit"
-  exit;
-fi
-
-
 if pgrep -c youtube-dl > /dev/null; then
   # echo "Last download task still running, exit"
   exit;
