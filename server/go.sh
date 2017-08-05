@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-if pgrep -c youtube-dl > /dev/null; then
-  # echo "Last download task still running, exit"
-  exit;
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  if pgrep -c youtube-dl > /dev/null; then
+    # echo "Last download task still running, exit"
+    exit;
+  fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  if pgrep youtube-dl > /dev/null; then
+    # echo "Last download task still running, exit"
+    exit;
+  fi
 fi
+
 
 if pgrep -c qshell > /dev/null; then
   # echo "Last upload task still running, exit"

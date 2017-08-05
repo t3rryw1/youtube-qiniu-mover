@@ -1,39 +1,70 @@
 #!/usr/bin/env bash
-if pgrep -c youtube-dl > /dev/null; then
-  # echo "Last download task still running, exit"
-  exit;
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  if pgrep -c youtube-dl > /dev/null; then
+    exit;
+  fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  if pgrep youtube-dl > /dev/null; then
+    exit;
+  fi
 fi
 
 cd $(dirname $0)
 
-git pull
+git pull > /dev/null
+
+youtube_dl=$(command -v youtube-dl)
 
 all_file_list=${1:-'../file-list/to-do/to-do-list.txt'}
 finished_file_list=${2:-'../file-list/done/downloaded-list.txt'}
+
+all_file_list=$(realpath  $all_file_list)
+finished_file_list=$(realpath  $finished_file_list)
+
+echo "Detecting youtube-dl path..."
+
+test -z $youtube_dl && echo "Exiting: youtube-dl executable does not exist!" && exit
+
+echo "youtube-dl path: $youtube_dl"
+
+
 printf "Start processing file list...
-[$all_file_list] \tas video file list,
-[$finished_file_list] \tas the finished file list\n"
+Use $all_file_list \tas video file list,
+Use $finished_file_list \tas the finished file list\n"
+
+if [ ! -f $all_file_list ]; then
+  echo "Exiting: Source file list does not exist!" && exit
+fi
+
+if [ ! -f $finished_file_list ]; then
+  echo "Destination file list does not exist, creating" \
+  && touch $finished_file_list
+fi
 
 #definitions
-sorted_all_file_list="tmp/$(basename $all_file_list).tmp"
-sorted_finished_file_list="tmp/$(basename $finished_file_list).tmp"
+sorted_all_file_list="/tmp/$(basename $all_file_list).tmp"
+sorted_finished_file_list="/tmp/$(basename $finished_file_list).tmp"
 
-current_task_file_list="tmp/current_task_files.tmp"
+current_task_file_list="/tmp/current_task_files.tmp"
 
-sort $all_file_list -u > $sorted_all_file_list
-sort $finished_file_list -u > $sorted_finished_file_list
-
+sort $all_file_list -u > $sorted_all_file_list && \
+sort $finished_file_list -u > $sorted_finished_file_list && \
 comm -23 $sorted_all_file_list $sorted_finished_file_list > $current_task_file_list
 
-printf "There are $(wc -l < $current_task_file_list) new files to be downloaded\n";
-while read url; do
-  printf "Start downloading $url\n"
-  file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url)
-  if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url ; then
-    printf "Finish downloading $url\n"
-    printf "Write $url to done List\n"
-    printf "$file_name\n" >> $finished_file_list
-  else
-    printf "Error downloading $url\n"
-  fi
-done < $current_task_file_list
+lines=$(wc -l < $current_task_file_list)
+if [ $lines -eq 0 ]; then
+  echo "No new files need downloaded, exit." && exit
+fi
+read -r url <$current_task_file_list
+printf "There are $(wc -l < $current_task_file_list) new files to be downloaded, this task will download \n >> $url <<\n"
+
+printf "Start downloading $url\n"
+file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url)
+printf "Saving $url to local file \n >> $file_name <<"
+if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url ; then
+  printf "Finish downloading $url\n"
+  printf "Write $url to done List\n"
+  printf "$url\n" >> $finished_file_list
+else
+  printf "Error downloading $url\n"
+fi
