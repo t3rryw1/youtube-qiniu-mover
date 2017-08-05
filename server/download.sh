@@ -18,19 +18,12 @@ youtube_dl=$(command -v youtube-dl)
 all_file_list=${1:-'../file-list/to-do/to-do-list.txt'}
 finished_file_list=${2:-'../file-list/done/downloaded-list.txt'}
 
-all_file_list=$(realpath  $all_file_list)
-finished_file_list=$(realpath  $finished_file_list)
 
 echo "Detecting youtube-dl path..."
 
 test -z $youtube_dl && echo "Exiting: youtube-dl executable does not exist!" && exit
 
 echo "youtube-dl path: $youtube_dl"
-
-
-printf "Start processing file list...
-Use $all_file_list \tas video file list,
-Use $finished_file_list \tas the finished file list\n"
 
 if [ ! -f $all_file_list ]; then
   echo "Exiting: Source file list does not exist!" && exit
@@ -40,6 +33,14 @@ if [ ! -f $finished_file_list ]; then
   echo "Destination file list does not exist, creating" \
   && touch $finished_file_list
 fi
+
+all_file_list=$(realpath  $all_file_list)
+finished_file_list=$(realpath  $finished_file_list)
+
+printf "Start processing file list...
+Use $all_file_list \tas video file list,
+Use $finished_file_list \tas the finished file list\n"
+
 
 #definitions
 sorted_all_file_list="/tmp/$(basename $all_file_list).tmp"
