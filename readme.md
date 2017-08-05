@@ -11,20 +11,22 @@
 
 客户端需要安装工具:
 
-1. rsync 
+1. rsync
 2. sshpass
 
 客户端需要配置根目录下的.env文件，范例如下：
 
 ```
-    BUCKET_NAME=cozystay-galaxy-bucket1-hb
-    ACCESS_KEY=dzTaOTcLAA-SQY9Ky2Vs9wJqaci5FyDOEgjK_dQq
-    SECRET_KEY=Y6O1QoMFYUU62SwPo8QhTxEm-uZ7GicpbivpfogX
-    RSNYC_PASSWORD=meifujia138!QAZ
-    RSYNC_SERVER_USER=root
-    RSYNC_SERVER_ADDRESS=47.88.231.26
-    RSYNC_SERVER_PATH=/root/youtube-qiniu-mover
+    BUCKET_NAME=%使用的qiniu bucket%
+    ACCESS_KEY=%七牛access key%
+    SECRET_KEY=%七牛secrect key%
+    RSNYC_PASSWORD=%服务端登录密码%
+    RSYNC_SERVER_USER=%服务端用户名%
+    RSYNC_SERVER_ADDRESS=%服务端登录地址%
+    RSYNC_SERVER_PATH=%服务端项目路径%
 
 ```
 
 运行方式 `./client/add_video.sh url`
+
+服务端需要运行 `./server/download.sh` 与 `./server/upload.sh` 两个crontab，并设置对应的.env文件。
