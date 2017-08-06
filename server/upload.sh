@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+cd $(dirname $0)
+
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   if pgrep -c qshell > /dev/null; then
     exit;
@@ -22,7 +24,6 @@ SECRET_KEY=${SECRET_KEY:?"Need to set SECRET_KEY non-empty in .env file"}
 $qshell account $ACCESS_KEY $SECRET_KEY
 
 
-cd $(dirname $0)
 
 eval $(cat ../.env | xargs)
 
