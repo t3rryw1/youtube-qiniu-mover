@@ -33,7 +33,7 @@ top_line=${top_line:?"No new files need uploading, exit"}
 
 printf "Start uploading videos/$top_line\n"
 # exit
-$qshell rput $BUCKET_NAME "shell_upload/$top_line" "./videos/$top_line" \
+$qshell rput $BUCKET_NAME "shell_upload/$top_line" "./videos/$top_line" 1 \
 && echo "Finish uploading file, clean file" \
 && rm -f "./videos/$top_line"
 echo "Complete uploading task"
