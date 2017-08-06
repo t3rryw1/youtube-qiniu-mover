@@ -11,9 +11,12 @@ fi
 
 cd $(dirname $0)
 
+eval $(cat ../.env | xargs)
+
 git pull > /dev/null
 
 youtube_dl=$(command -v youtube-dl)
+youtube_dl=${youtube_dl:-$YOUTUBE_DL_PATH}
 
 all_file_list=${1:-'../file-list/to-do/to-do-list.txt'}
 finished_file_list=${2:-'../file-list/done/downloaded-list.txt'}
