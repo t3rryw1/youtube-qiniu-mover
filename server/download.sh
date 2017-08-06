@@ -71,4 +71,6 @@ if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%
   printf "$url\n" >> $finished_file_list
 else
   printf "Error downloading $url\n"
+  printf "Still Write $url to done List to skip the file\n"
+  printf "$url\n" >> $finished_file_list
 fi
