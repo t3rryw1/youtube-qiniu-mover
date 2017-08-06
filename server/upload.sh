@@ -28,11 +28,12 @@ eval $(cat ../.env | xargs)
 
 git pull > /dev/null
 
-top_line=$(find videos | egrep -e "(.*\.webm)|(,*\.mp4)$" | head -n1)
+top_line=$(find videos | egrep -e "(.*\.webm)|(,*\.mp4)$" |  head -n1 | sed -e 's/^videos\///g')
 top_line=${top_line:?"No new files need uploading, exit"}
 
-printf "Start uploading $top_line\n"
-$qshell rput $BUCKET_NAME "shell_upload/$top_line" "./$top_line" \
+printf "Start uploading videos/$top_line\n"
+# exit
+$qshell rput $BUCKET_NAME "shell_upload/$top_line" "./videos/$top_line" \
 && echo "Finish uploading file, clean file" \
-&& rm -f "./$top_line"
+&& rm -f "./videos/$top_line"
 echo "Complete uploading task"
