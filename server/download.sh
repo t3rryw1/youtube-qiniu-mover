@@ -31,7 +31,7 @@ fi
 
 if [ ! -f $finished_file_list ]; then
   echo "Destination file list does not exist, creating" \
-  && touch $finished_file_list
+  && echo "" > $finished_file_list
 fi
 
 all_file_list=$(realpath  $all_file_list)
