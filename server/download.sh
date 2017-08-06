@@ -19,7 +19,7 @@ all_file_list=${1:-'../file-list/to-do/to-do-list.txt'}
 finished_file_list=${2:-'../file-list/done/downloaded-list.txt'}
 
 
-echo "Detecting youtube-dl path..."
+echo "Detecting youtube-dl path... in $youtube_dl"
 
 test -z $youtube_dl && echo "Exiting: youtube-dl executable does not exist!" && exit
 
