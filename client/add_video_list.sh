@@ -5,7 +5,7 @@ echo $(PWD)
 eval $(cat ../.env | xargs)
 
 if [ -z "$1" ]; then
-  echo "Usage: ./add_video_list.sh url"
+  echo "Usage: ./add_video_list.sh playlist_id"
   exit;
 fi
 
