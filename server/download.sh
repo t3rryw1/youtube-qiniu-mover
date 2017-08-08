@@ -66,11 +66,11 @@ printf "Start downloading $url\n"
 file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" "$url")
 printf "Saving $url to local file \n >> $file_name <<"
 if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" "$url" ; then
-  printf "Finish downloading $url\n"
-  printf "Write $url to done List\n"
-  printf "$url\n" >> $finished_file_list
+  printf "Finish downloading %s\n" $url
+  printf "Write %s to done List\n" $url
+  printf "%s\n" $url >> $finished_file_list
 else
   printf "Error downloading $url\n"
   printf "Still Write $url to done List to skip the file\n"
-  printf "$url\n" >> $finished_file_list
+  printf "%s\n" $url >> $finished_file_list
 fi
