@@ -63,9 +63,9 @@ read -r url <$current_task_file_list
 printf "There are $(wc -l < $current_task_file_list) new files to be downloaded, this task will download \n >> $url <<\n"
 
 printf "Start downloading $url\n"
-file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url)
+file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" "$url")
 printf "Saving $url to local file \n >> $file_name <<"
-if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" $url ; then
+if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" "$url" ; then
   printf "Finish downloading $url\n"
   printf "Write $url to done List\n"
   printf "$url\n" >> $finished_file_list
