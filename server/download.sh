@@ -12,7 +12,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 disk_space=$(df | grep -vE '^Filesystem|tmpfs|cdrom' | head -n1 | awk '{ print $4 }')
-[ $disk_space -lt "300000" ] &&  echo "== Low disk_space, aborting. ==" &&  exit;
+[ $disk_space -lt "1000000" ] &&  echo "== Low disk_space, aborting. ==" &&  exit;
 
 cd $(dirname $0)
 
@@ -90,7 +90,9 @@ else
     printf "Finish downloading %s\n" $url
     printf "Write %s to done List\n" $url
   else
-    printf "Error downloading $url\n"
+    printf "Error downloading $url\n remove void video file $file_name\n"
+    rm -f "$file_name"
+    rm -f "$file_name.part"
     printf "Still Write $url to done List to skip the file\n"
   fi
 fi
