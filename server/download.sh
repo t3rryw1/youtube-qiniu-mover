@@ -76,18 +76,22 @@ fi
 read -r url <$current_task_file_list
 printf "There are $(wc -l < $current_task_file_list) new files to be downloaded, this task will download \n >> $url <<\n"
 
-file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url")
-printf "Checking if $file_name exists in bucket ... \n"
-$qshell stat $BUCKET_NAME "shell_upload/$file_name" > /dev/null && echo "File exists in current bucket, aborting " && exit
-printf "File $file_name does not exist in bucket\n"
-printf "Start downloading $url\n"
-printf "Saving $url to local file \n >> $file_name <<"
-if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url" ; then
-  printf "Finish downloading %s\n" $url
-  printf "Write %s to done List\n" $url
-  printf "%s\n" $url >> $finished_file_list
+file_name=$(/usr/local/bin/youtube-dl --get-filename -o "%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url")
+printf "Checking if shell_upload/$file_name exists in bucket ... \n"
+if $qshell stat $BUCKET_NAME "shell_upload/$file_name" > /dev/null ; then
+  echo "File exists in current bucket, skipping"
+  printf "Write $url to done List to skip the file\n"
 else
-  printf "Error downloading $url\n"
-  printf "Still Write $url to done List to skip the file\n"
-  printf "%s\n" $url >> $finished_file_list
+  printf "File shell_upload/$file_name does not exist in bucket\n"
+  printf "Start downloading $url\n"
+  file_name="videos/$file_name"
+  printf "Saving $url to local file \n >> $file_name <<"
+  if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url" ; then
+    printf "Finish downloading %s\n" $url
+    printf "Write %s to done List\n" $url
+  else
+    printf "Error downloading $url\n"
+    printf "Still Write $url to done List to skip the file\n"
+  fi
 fi
+printf "%s\n" $url >> $finished_file_list
