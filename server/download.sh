@@ -9,7 +9,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   fi
 fi
 
-disk_space=$(df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 }')
+disk_space=$(df | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 }')
 if [ $disk_space -lt 300000 ]; then
   echo "== Low disk_space, aborting. =="
   exit;
