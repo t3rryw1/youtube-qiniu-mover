@@ -29,7 +29,7 @@ eval $(cat ../.env | xargs)
 
 git pull > /dev/null
 
-top_line=$(find videos | egrep -e "(.*\.webm)$|(,*\.mp4)$" |  head -n1 | sed -e 's/^videos\///g')
+top_line=$(find videos | egrep -e "(.*\.webm)$|(.*\.mp4)$" |  head -n1 | sed -e 's/^videos\///g')
 top_line=${top_line:?"No new files need uploading, exit"}
 if $qshell stat $BUCKET_NAME "shell_upload/$top_line" > /dev/null ; then
   echo "File exists in current bucket, remove and skipping"
