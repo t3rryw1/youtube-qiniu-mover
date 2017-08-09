@@ -25,6 +25,7 @@ youtube_dl=${youtube_dl:-$YOUTUBE_DL_PATH}
 
 all_file_list=${1:-'../file-list/to-do/to-do-list.txt'}
 finished_file_list=${2:-'../file-list/done/downloaded-list.txt'}
+failed_file_list=${3:-'../file-list/done/failed-list.txt'}
 
 
 echo "Detecting youtube-dl path... in $youtube_dl"
@@ -53,6 +54,7 @@ fi
 
 all_file_list=$(realpath  $all_file_list)
 finished_file_list=$(realpath  $finished_file_list)
+failed_file_list=$(realpath  $failed_file_list)
 
 printf "Start processing file list...
 Use $all_file_list \tas video file list,
@@ -93,7 +95,8 @@ else
     printf "Error downloading $url\n remove void video file $file_name\n"
     rm -f "$file_name"
     rm -f "$file_name.part"
-    printf "Still Write $url to done List to skip the file\n"
+    printf "Write $url to failed List and done list to skip the file\n"
+    printf "%s\n" $url >> $failed_file_list
   fi
 fi
 printf "%s\n" $url >> $finished_file_list
