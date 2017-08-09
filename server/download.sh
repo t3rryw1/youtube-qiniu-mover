@@ -3,17 +3,17 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   if pgrep -c youtube-dl > /dev/null; then
     exit;
   fi
+  qshell=./commands/qshell-linux-x64
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   if pgrep youtube-dl > /dev/null; then
     exit;
   fi
+  qshell=./commands/qshell-darwin-x64                # Mac OSX
 fi
 
-disk_space=$(df | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $4 }')
-if [ $disk_space -lt 300000 ]; then
-  echo "== Low disk_space, aborting. =="
-  exit;
-fi
+disk_space=$(df | grep -vE '^Filesystem|tmpfs|cdrom' | head -n1 | awk '{ print $4 }')
+[ $disk_space -lt "300000" ] &&  echo "== Low disk_space, aborting. ==" &&  exit;
+
 cd $(dirname $0)
 
 eval $(cat ../.env | xargs)
@@ -32,6 +32,15 @@ echo "Detecting youtube-dl path... in $youtube_dl"
 test -z $youtube_dl && echo "Exiting: youtube-dl executable does not exist!" && exit
 
 echo "youtube-dl path: $youtube_dl"
+
+echo "Detecting qshell path..."
+
+test -z $qshell && echo "Exiting: qshell executable does not exist!" && exit
+
+ACCESS_KEY=${ACCESS_KEY:?"Need to set ACCESS_KEY non-empty in .env file"}
+SECRET_KEY=${SECRET_KEY:?"Need to set SECRET_KEY non-empty in .env file"}
+$qshell account $ACCESS_KEY $SECRET_KEY
+
 
 if [ ! -f $all_file_list ]; then
   echo "Exiting: Source file list does not exist!" && exit
@@ -67,8 +76,11 @@ fi
 read -r url <$current_task_file_list
 printf "There are $(wc -l < $current_task_file_list) new files to be downloaded, this task will download \n >> $url <<\n"
 
-printf "Start downloading $url\n"
 file_name=$(/usr/local/bin/youtube-dl --get-filename -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url")
+printf "Checking if $file_name exists in bucket ... \n"
+$qshell stat $BUCKET_NAME "shell_upload/$file_name" > /dev/null && echo "File exists in current bucket, aborting " && exit
+printf "File $file_name does not exist in bucket\n"
+printf "Start downloading $url\n"
 printf "Saving $url to local file \n >> $file_name <<"
 if /usr/local/bin/youtube-dl -o "videos/%(upload_date)s/%(uploader)s/%(title)s.%(ext)s" -- "$url" ; then
   printf "Finish downloading %s\n" $url

@@ -29,7 +29,7 @@ eval $(cat ../.env | xargs)
 
 git pull > /dev/null
 
-top_line=$(find videos | egrep -e "(.*\.webm)|(,*\.mp4)$" |  head -n1 | sed -e 's/^videos\///g')
+top_line=$(find videos | egrep -e "(.*\.webm)$|(,*\.mp4)$" |  head -n1 | sed -e 's/^videos\///g')
 top_line=${top_line:?"No new files need uploading, exit"}
 
 printf "Start uploading videos/$top_line\n"
